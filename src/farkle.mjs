@@ -1,6 +1,5 @@
-import test from "node:test";
-import assert from "assert/strict";
 import { getValue } from "./getValue.mjs";
+import { generateRoll } from "./generateRoll.mjs";
 
 // tests
 const roll = generateRoll();

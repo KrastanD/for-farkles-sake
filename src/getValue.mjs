@@ -18,6 +18,7 @@ export function getValue(roll) {
   roll.forEach((num) =>
     valueMap[num] ? (valueMap[num] += 1) : (valueMap[num] = 1)
   );
+
   subcalls.push(check1sAnd5s(valueMap));
   subcalls.push(checkOfAKind(valueMap));
   // base case

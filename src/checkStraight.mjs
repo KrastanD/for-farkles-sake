@@ -1,6 +1,8 @@
 export function checkStraight(valueMap) {
-  if (Object.keys(valueMap).length === 6) {
-    return 1500;
+  for (let value in valueMap) {
+    if (valueMap[value] !== 1) {
+      return 0;
+    }
   }
-  return 0;
+  return 1500;
 }
