@@ -1,25 +1,38 @@
+import { check1sAnd5s } from "./check1sAnd5s.mjs";
 export function checkCombos(valueMap) {
-  let pairCount = 0;
-  let tripletCount = 0;
-  let quadrupletCount = 0;
+  let pairCount = [];
+  let tripletCount = [];
+  let quadrupletCount = [];
   for (let value in valueMap) {
     if (valueMap[value] === 2) {
-      pairCount += 1;
+      pairCount.push(value);
     }
     if (valueMap[value] === 3) {
-      tripletCount += 1;
+      tripletCount.push(value);
     }
     if (valueMap[value] === 4) {
-      quadrupletCount += 1;
+      quadrupletCount.push(value);
     }
   }
-  if (pairCount === 3) {
-    return 1500;
+  if (pairCount.length === 3) {
+    const updatedValueMap = { ...valueMap };
+    pairCount.forEach((element) => {
+      updatedValueMap[element] = 0;
+    });
+    const remainder = check1sAnd5s(updatedValueMap);
+
+    return 1500 + remainder;
   }
-  if (tripletCount === 2) {
-    return 2500;
+  if (tripletCount.length === 2) {
+    const updatedValueMap = { ...valueMap };
+    tripletCount.forEach((element) => {
+      updatedValueMap[element] = 0;
+    });
+    const remainder = check1sAnd5s(updatedValueMap);
+
+    return 2500 + remainder;
   }
-  if (pairCount === 1 && quadrupletCount === 1) {
+  if (pairCount.length === 1 && quadrupletCount.length === 1) {
     return 1500;
   }
   return 0;

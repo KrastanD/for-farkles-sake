@@ -1,26 +1,18 @@
-import { getPossibleScores } from "./getPossibleScores.mjs";
-import { getSingleScore } from "./getSingleScore.mjs";
-
+import { checkOfAKind } from "./checkOfAKind.mjs";
+import { checkStraight } from "./checkStraight.mjs";
+import { checkCombos } from "./checkCombos.mjs";
+import { createValueMap } from "./createValueMap.mjs";
+import { check1sAnd5s } from "./check1sAnd5s.mjs";
 export function getScore(roll) {
-  const stack = [{ roll: roll, remainder: 0 }];
-  const relativeMaxScores = [];
-  while (stack.length > 0) {
-    const iter = stack.pop();
-    if (iter.roll.length === 1) {
-      const singleScore = getSingleScore(iter.roll[0]);
-      relativeMaxScores.push(singleScore + iter.remainder);
-      continue;
-    }
-    iter.roll.forEach((_, rollIndex) => {
-      let newRemainder = getSingleScore(iter.roll[rollIndex]) + iter.remainder;
-      const newIter = {
-        roll: iter.roll.filter((_, i) => i != rollIndex),
-        remainder: newRemainder,
-      };
-      stack.unshift(newIter);
-    });
-    const possibleScores = getPossibleScores(iter.roll);
-    relativeMaxScores.push(Math.max(...possibleScores) + iter.remainder);
+  const subcalls = [];
+  const valueMap = createValueMap(roll);
+  subcalls.push(check1sAnd5s(valueMap));
+  if (roll.length > 2) {
+    subcalls.push(checkOfAKind(valueMap));
   }
-  return Math.max(...relativeMaxScores);
+  if (roll.length === 6) {
+    subcalls.push(checkStraight(valueMap));
+    subcalls.push(checkCombos(valueMap));
+  }
+  return Math.max(...subcalls);
 }
