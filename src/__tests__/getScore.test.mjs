@@ -34,4 +34,8 @@ describe("getScore", () => {
   it("returns 0 for a farkle", () => {
     assert.strictEqual(getScore([4, 3, 6, 6, 2, 3]), 0);
   });
+
+  it("returns 500, for 3 of a kind and two 5s", () => {
+    assert.strictEqual(getScore([5, 4, 4, 4, 5]), 500);
+  });
 });
